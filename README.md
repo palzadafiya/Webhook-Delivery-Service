@@ -50,20 +50,36 @@ git clone <repository-url>
 cd webhook-delivery-service
 ```
 
-2. Start the services:
+2. Create a .env file from the example:
+```bash
+cp .env.example .env
+```
+- Edit the .env file to fill in your actual configuration values (e.g., database username, password, secret key, etc.)
+
+3. Start the services:
 ```bash
 docker-compose up -d
 ```
 
-3. Run database migrations:
+4. Run database migrations:
 ```bash
 docker-compose run --rm api alembic upgrade head
 ```
 
-4. Access the API documentation:
+5. Access the API documentation:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
+6. Useful Commands:
+- Stop all services
+  ```bash
+  docker-compose down
+  ```
+- View logs
+  ```bash
+  docker-compose logs -f
+  ```
+  
 ## API Endpoints
 
 ### Subscription Management
