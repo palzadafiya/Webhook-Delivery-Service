@@ -96,7 +96,7 @@ def cleanup_old_logs():
     """Clean up delivery logs older than the retention period"""
     db = SessionLocal()
     try:
-        retention_period = datetime.utcnow() - timedelta(hours=settings.LOG_RETENTION_HOURS)
+        retention_period = datetime.utcnow() - timedelta(hours=0.05) #settings.LOG_RETENTION_HOURS)
         db.query(DeliveryLog).filter(DeliveryLog.created_at < retention_period).delete()
         db.commit()
     finally:

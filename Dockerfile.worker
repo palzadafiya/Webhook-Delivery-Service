@@ -1,5 +1,8 @@
 FROM python:3.11-slim
 
+# Create a non-root user
+RUN useradd -m celeryuser
+
 WORKDIR /app
 
 # Install system dependencies
@@ -14,5 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Switch to non-root user
+USER celeryuser
+
 # Command to run the Celery worker
-CMD ["celery", "-A", "app.worker", "worker", "--loglevel=info"] 
+CMD ["celery", "-A", "app.worker.celery_app", "worker", "--loglevel=info", "--beat"]

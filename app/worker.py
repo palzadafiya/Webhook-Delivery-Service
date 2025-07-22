@@ -1,4 +1,5 @@
 from celery import Celery
+from celery.schedules import crontab
 from app.core.config import settings
 
 celery_app = Celery(
@@ -18,7 +19,15 @@ celery_app.conf.update(
     task_soft_time_limit=25,  # 25 seconds
     worker_max_tasks_per_child=1000,
     worker_prefetch_multiplier=1,
+    beat_schedule={
+        'cleanup-old-logs': {
+            'task': 'app.tasks.delivery_tasks.cleanup_old_logs',
+            #'schedule': crontab(hour=0, minute=0),  # Run daily at midnight UTC
+            # Alternatively, you can use:
+             'schedule': 60,  # Run every 86400 seconds (24 hours)
+        },
+    }
 )
 
 # Import tasks to ensure they're registered
-from app.tasks import delivery_tasks 
+from app.tasks import delivery_tasks
